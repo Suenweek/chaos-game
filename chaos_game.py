@@ -6,6 +6,56 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
+def main(args):
+    # Styles
+    plt.style.use("ggplot")
+
+    # Creating figure
+    fig = plt.figure()
+    line, = plt.plot([], [], ".")
+
+    # Limit axes
+    plt.xlim(0, 1)
+    plt.ylim(0, 1)
+
+    # Titles
+    title = "Chaos Game"
+    plt.title(title)
+    fig.canvas.set_window_title(title)
+
+    # Getting data
+    data = get_data(args.frames)
+
+    # Creating animation
+    line_ani = animation.FuncAnimation(
+        fig=fig,
+        func=update_line,
+        frames=args.frames,
+        fargs=(data, line),
+        interval=args.interval,
+        repeat=False
+    )
+
+    # To save the animation install ffmpeg and uncomment
+    # line_ani.save("chaos_game.gif")
+
+    plt.show()
+
+
+def get_data(n):
+    """
+    Get data to plot
+    """
+    leg = 1
+    triangle = get_triangle(leg)
+    cur_point = gen_point_within_poly(triangle)
+    data = []
+    for _ in range(n):
+        data.append((cur_point.x, cur_point.y))
+        cur_point = next_point(triangle, cur_point)
+    return data
+
+
 def get_triangle(n):
     """
     Create right triangle
@@ -48,63 +98,13 @@ def next_point(poly, point):
     return line.centroid
 
 
-def get_data(n):
-    """
-    Get data to plot
-    """
-    leg = 1
-    triangle = get_triangle(leg)
-    cur_point = gen_point_within_poly(triangle)
-    data = []
-    for _ in range(n):
-        data.append((cur_point.x, cur_point.y))
-        cur_point = next_point(triangle, cur_point)
-    return data
-
-
-def update(num, data, line):
+def update_line(num, data, line):
     """
     Update line with new points
     """
     new_data = zip(*data[:num]) or [(), ()]
     line.set_data(new_data)
     return line,
-
-
-def main(args):
-    # Styles
-    plt.style.use("ggplot")
-
-    # Creating figure
-    fig = plt.figure()
-    line, = plt.plot([], [], ".")
-
-    # Limit axes
-    plt.xlim(0, 1)
-    plt.ylim(0, 1)
-
-    # Titles
-    title = "Chaos Game"
-    plt.title(title)
-    fig.canvas.set_window_title(title)
-
-    # Getting data
-    data = get_data(args.frames)
-
-    # Creating animation
-    line_ani = animation.FuncAnimation(
-        fig=fig,
-        func=update,
-        frames=args.frames,
-        fargs=(data, line),
-        interval=args.interval,
-        repeat=False
-    )
-
-    # To save the animation install ffmpeg and uncomment
-    # line_ani.save("chaos_game.gif")
-
-    plt.show()
 
 
 if __name__ == "__main__":
