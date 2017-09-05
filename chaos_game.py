@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
+"""
+https://en.wikipedia.org/wiki/Chaos_game
+"""
+
+
 def main(args):
     # Styles
     plt.style.use("ggplot")
