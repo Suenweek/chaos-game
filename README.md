@@ -1,1 +1,1 @@
-﻿# Python Tasks for *rosettacode.org*
+﻿# Tasks for _rosettacode.org_
