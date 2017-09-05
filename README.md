@@ -1,1 +1,1 @@
-﻿# Tasks for _rosettacode.org_
+﻿# Tasks for https://rosettacode.org
